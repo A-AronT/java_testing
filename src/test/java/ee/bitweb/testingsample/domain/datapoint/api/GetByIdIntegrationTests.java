@@ -69,8 +69,8 @@ class GetByIdIntegrationTests {
     @Test
     @Transactional
     void onInvalidNegativeIdShouldReturnNotFound() throws Exception {
-        DataPoint point = repository.save(create(-1L));
-        mockMvc.perform(createDefaultRequest("3"))
+        DataPoint point = repository.save(create(1L));
+        mockMvc.perform(createDefaultRequest("-1"))
                 .andDo(print())
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$", aMapWithSize(4)))
@@ -78,7 +78,7 @@ class GetByIdIntegrationTests {
                 .andExpect(jsonPath("$.message", is("Entity DataPoint not found")))
                 .andExpect(jsonPath("$.entity", is("DataPoint")))
                 .andExpect(jsonPath("$.criteria[0].field", is("id")))
-                .andExpect(jsonPath("$.criteria[0].value", is("3")));
+                .andExpect(jsonPath("$.criteria[0].value", is("-1")));
     }
 
     @Test
